@@ -1,0 +1,17 @@
+body {
+  background-image: url("bg.jpg");
+}
+h1 {
+	margin: 50 50 50 50;
+	color: #663300;
+	font-weight: normal;
+	font-family: 'Ultra', sans-serif;   
+	font-size: 65px;
+	line-height: 42px;
+	text-transform: uppercase;
+	text-shadow: 0 2px black, 0 3px #995e00;
+	font-style: italic;
+}
+.button {
+    height:34px;
+}
