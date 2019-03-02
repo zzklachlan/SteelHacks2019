@@ -3,6 +3,7 @@ import io
 import os
 from threading import Thread
 import time, datetime
+import ftplib
 
 from google.cloud import vision
 client = vision.ImageAnnotatorClient()
@@ -67,16 +68,35 @@ def file_Exec():
 	global_sorrow = 0
 	global_faceCount = 0
 	#Write database to file
-	file = open('output.txt','w')
+	filename = 'output.txt'
+	file = open(filename,'w')
+	a = 1
 	
 	for object in dataBase:
 		file.write(object.timeStamp)
 		file.write(" ")
-	file.write("\n")
-	for object in dataBase:
 		file.write(str(object.joy))
-		file.write(" ")
+		# file.write(" ")
+		# file.write(str(object.joy))
+		# file.write(" ")
+		# file.write(str(object.joy))
+		# file.write(" ")
+		# file.write(str(object.joy))
+		if(length(dataBase) != a):
+			file.write("\n")
+			
+		a = a + 1
+	
 	file.close()
+	
+	#do FTP Transfer
+	ftp = ftplib.FTP("xo6.x10hosting.com")
+	ftp.login("yuchenx1","1996918syc")
+	ftp.cwd("/public_html/2019steel")
+	myfile = open(filename, 'rb')
+	ftp.storbinary('STOR ' + filename, myfile)
+	myfile.close()
+	
 	print('printed')
 	
 	
