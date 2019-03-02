@@ -2,12 +2,16 @@ import cv2
 import io
 import os
 from threading import Thread
+import time
 
 from google.cloud import vision
 client = vision.ImageAnnotatorClient()
 
 cv2.namedWindow("preview")
 vc = cv2.VideoCapture(0)
+
+apiExec = time.time() * 1000
+
 
 
 def google_API(jpegFile):
@@ -28,6 +32,7 @@ def google_API(jpegFile):
 	print('Count: {}, Anger: {}, Joy: {}, Surprise: {}, Sorrow: {}'.format(facesCount, anger, joy, suprise, sorrow))
 	return 0
 
+	
 
 if vc.isOpened():
 	rval, frame = vc.read()
@@ -42,9 +47,11 @@ while rval:
 	
 	jpg = cv2.imencode('.jpg',frame)[1].tostring()
 	
+	if((time.time() * 1000) - apiExec > 100): #runs every 100 ms
+		t = Thread(target=google_API, args=(jpg,))
+		t.start()
+		apiExec = time.time() * 1000
 	
-	t = Thread(target=google_API, args=(jpg,))
-	t.start()
 	
 	
 	key = cv2.waitKey(20)
