@@ -82,7 +82,7 @@ def file_Exec():
 		# file.write(str(object.joy))
 		# file.write(" ")
 		# file.write(str(object.joy))
-		if(length(dataBase) != a):
+		if(len(dataBase) != a):
 			file.write("\n")
 			
 		a = a + 1
@@ -118,7 +118,7 @@ while rval:
 		t.start()
 		apiExec = time.time() * 1000
 	
-	if((time.time() * 1000) - fileExec > 5000): #runs every 5000 ms
+	if((time.time() * 1000) - fileExec > 3000): #runs every 3000 ms
 		t1 = Thread(target=file_Exec)
 		t1.start()
 		fileExec = time.time() * 1000
