@@ -25,7 +25,8 @@ from google.cloud.vision import types
 from PIL import Image, ImageDraw
 #from oauth2client.client import GoogleCredentials
 # [END vision_face_detection_tutorial_imports]
-
+likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE',
+                       'LIKELY', 'VERY_LIKELY')
 
 # [START vision_face_detection_tutorial_send_request]
 def detect_face(face_file, max_results=4):
@@ -40,7 +41,7 @@ def detect_face(face_file, max_results=4):
     # [START vision_face_detection_tutorial_client]
     #client = vision.ImageAnnotatorClient()
     client = vision.ImageAnnotatorClient.from_service_account_file(
-    '/Users/kai/Desktop/Facebit-4dd8e9191f30.json'
+    '/Users/kai/Documents/SteelHacks2019/Facebit-4dd8e9191f30.json'
     )
 
     # [END vision_face_detection_tutorial_client]
@@ -86,8 +87,13 @@ def main(input_filename, output_filename, max_results):
         faces = detect_face(image, max_results)
         print('Found {} face{}'.format(
             len(faces), '' if len(faces) == 1 else 's'))
-        print(faces[0])
-        print('Writing to file {}'.format(output_filename))
+        #print(faces[0])
+        for face in faces:
+          print('joy: {}'.format(likelihood_name[face.joy_likelihood]))
+          print('sorrow: {}'.format(likelihood_name[face.sorrow_likelihood]))
+          print('anger: {}'.format(likelihood_name[face.anger_likelihood]))
+          print('surprise: {}'.format(likelihood_name[face.surprise_likelihood]))
+          print('Writing to file {}'.format(output_filename))
         # Reset the file pointer, so we can read the file again
         image.seek(0)
         highlight_faces(image, faces, output_filename)
